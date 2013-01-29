@@ -10,16 +10,17 @@ npm install voxel-region-change
 
 ```javascript
 var regionChange = require('voxel-region-change')
-
-regionChange(game.spatial, game.cubeSize, game.chunkSize)
-  .on('voxel', function(pos) {
-    console.log('voxel', pos) // e.g. [53, 12, -11]
-  })
-  .on('chunk', function(pos) {
-    console.log('chunk', pos) // e.g. [0, 1, 0]
-  })
-  
 ```
+
+## regionChange(spatialEE, aabb3D, regionWidth)
+
+where `spatialEE` is a [spatial event emitter](http://github.com/chrisdickinson/spatial-events), `aabb3D` is a [aabb-3d](http://github.com/chrisdickinson/aabb-3d) and `regionWidth` is some number
+
+`box` is optional and will default to `aabb3d([-Infinity, -Infinity, -Infinity], [Infinity, Infinity, Infinity])`
+
+## regionChangeInstance.on('change', function(pos) {})
+
+this will emit each time the spatial event emitter emits a region that is beyond your regionWidth. it will emit a position object with x, y and z equal to `[Math.floor(pos.x / regionWidth), Math.floor(pos.y / regionWidth), Math.floor(pos.z / regionWidth)]`
 
 ## license
 

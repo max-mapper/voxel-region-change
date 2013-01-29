@@ -3,40 +3,24 @@ module.exports = coordinates
 var aabb = require('aabb-3d')
 var events = require('events')
  
-function coordinates(spatial, box, cubeSize, chunkSize) {
+function coordinates(spatial, box, regionWidth) {
   var emitter = new events.EventEmitter()
-  var lastVoxel = [NaN, NaN, NaN]
-  var thisVoxel
-  var lastChunk = [NaN, NaN, NaN]
-  var thisChunk
+  var lastRegion = [NaN, NaN, NaN]
+  var thisRegion
 
-  if (arguments.length === 3) {
-    chunkSize = cubeSize
-    cubeSize = box
+  if (arguments.length === 2) {
+    regionWidth = box
     box = aabb([-Infinity, -Infinity, -Infinity], [Infinity, Infinity, Infinity])
   }
 
-  var chunkWidth = cubeSize * chunkSize
-
-  spatial.on('position', box, function(pos) {
-    updateVoxel(pos)
-    updateChunk(pos)
-  })
+  spatial.on('position', box, updateRegion)
   
-  function updateChunk(pos) {
-    thisChunk = [Math.floor(pos.x / chunkWidth), Math.floor(pos.y / chunkWidth), Math.floor(pos.z / chunkWidth)]
-    if (thisChunk[0] !== lastChunk[0] || thisChunk[1] !== lastChunk[1] || thisChunk[2] !== lastChunk[2]) {
-      emitter.emit('chunk', thisChunk)
+  function updateRegion(pos) {
+    thisRegion = [Math.floor(pos.x / regionWidth), Math.floor(pos.y / regionWidth), Math.floor(pos.z / regionWidth)]
+    if (thisRegion[0] !== lastRegion[0] || thisRegion[1] !== lastRegion[1] || thisRegion[2] !== lastRegion[2]) {
+      emitter.emit('change', thisRegion)
     }
-    lastChunk = thisChunk
-  }
-  
-  function updateVoxel(pos) {
-    thisVoxel = [Math.floor(pos.x / cubeSize), Math.floor(pos.y / cubeSize), Math.floor(pos.z / cubeSize)]
-    if (thisVoxel[0] !== lastVoxel[0] || thisVoxel[1] !== lastVoxel[1] || thisVoxel[2] !== lastVoxel[2]) {
-      emitter.emit('voxel', thisVoxel)
-    }
-    lastVoxel = thisVoxel
+    lastRegion = thisRegion
   }
  
   return emitter
