@@ -19,10 +19,10 @@ container.addEventListener('click', function() {
   game.requestPointerLock(container)
 })
 
-regionChange(game.spatial, game.cubeSize, game.chunkSize)
-  .on('voxel', function(pos) {
-    voxelEl.innerHTML = JSON.stringify(pos)
-  })
-  .on('chunk', function(pos) {
-    chunkEl.innerHTML = JSON.stringify(pos)
-  })
+game.region.on('voxel', function(pos) {
+  voxelEl.innerHTML = JSON.stringify(pos)
+})
+
+game.region.on('chunk', function(pos) {
+  chunkEl.innerHTML = JSON.stringify(pos)
+})
