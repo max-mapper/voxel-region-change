@@ -1,5 +1,4 @@
 var createGame = require('voxel-engine')
-var texturePath = require('painterly-textures')(__dirname)
 var regionChange = require('./')
 
 var container = document.querySelector('#container')
@@ -7,8 +6,7 @@ var voxelEl = document.querySelector('#voxel')
 var chunkEl = document.querySelector('#chunk')
 
 var game = createGame({
-  startingPosition: [0, 500, 0],
-  texturePath: texturePath
+  startingPosition: [0, 500, 0]
 })
 
 window.game = game // for debugging
