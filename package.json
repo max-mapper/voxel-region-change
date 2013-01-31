@@ -12,7 +12,7 @@
   "devDependencies": {
     "browservefy": "0.0.1",
     "painterly-textures": "0.0.3",
-    "voxel-engine": "0.4.0"
+    "voxel-engine": "0.4.3"
   },
   "scripts": {
     "start": "echo \"open localhost:8080/\" && ./node_modules/.bin/browservefy demo.js 8080 -- -d"
