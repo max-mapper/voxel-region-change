@@ -1,8 +1,8 @@
 module.exports = coordinates
- 
+
 var aabb = require('aabb-3d')
 var events = require('events')
- 
+
 function coordinates(spatial, box, regionWidth) {
   var emitter = new events.EventEmitter()
   var lastRegion = [NaN, NaN, NaN]
@@ -16,7 +16,7 @@ function coordinates(spatial, box, regionWidth) {
   spatial.on('position', box, updateRegion)
   
   function updateRegion(pos) {
-    thisRegion = [Math.floor(pos.x / regionWidth), Math.floor(pos.y / regionWidth), Math.floor(pos.z / regionWidth)]
+    thisRegion = [Math.floor(pos[0] / regionWidth), Math.floor(pos[1] / regionWidth), Math.floor(pos[2] / regionWidth)]
     if (thisRegion[0] !== lastRegion[0] || thisRegion[1] !== lastRegion[1] || thisRegion[2] !== lastRegion[2]) {
       emitter.emit('change', thisRegion)
     }
